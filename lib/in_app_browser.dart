@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:share/share.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class InAppBrowser {
@@ -78,7 +79,14 @@ class InAppBrowser {
                   });
                 },
               ),
-              Icon(Icons.send, color: Colors.white),
+              InkWell(
+                child: Icon(Icons.send, color: Colors.white),
+                onTap: () {
+                  _webViewController
+                      .currentUrl()
+                      .then((value) => Share.share(value));
+                },
+              ),
               MediaQuery(
                 data: new MediaQueryData(),
                 child: InkWell(
