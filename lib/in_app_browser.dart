@@ -8,8 +8,61 @@ import 'package:share/share.dart';
 
 class InAppBrowser extends StatefulWidget {
   String mUrl;
+  final TextDirection mDirection;
+  final IconData backIcon,
+      nextIcon,
+      shareIcon,
+      historyIcon,
+      refreshIcon,
+      addBookmarkIcon,
+      removeBookmarkIcon,
+      closeIcon,
+      historyCloseIcon;
 
-  InAppBrowser({Key key, this.mUrl}) : super(key: key);
+  final Color appBarColor,
+      bottomNavColor,
+      backIconColor,
+      nextIconColor,
+      shareIconColor,
+      historyIconColor,
+      refreshIconColor,
+      addBookmarkIconColor,
+      removeBookmarkIconColor,
+      closeIconColor,
+      historyCloseIconColor;
+
+  final bool showAppName;
+  final String appName;
+  final String historyTitle;
+
+  InAppBrowser(
+    this.mUrl, {
+    Key key,
+    this.mDirection = TextDirection.ltr,
+    this.backIcon,
+    this.nextIcon,
+    this.shareIcon,
+    this.historyIcon,
+    this.refreshIcon,
+    this.closeIcon,
+    this.appBarColor = Colors.white,
+    this.bottomNavColor = Colors.white,
+    this.backIconColor = Colors.white,
+    this.nextIconColor = Colors.white,
+    this.shareIconColor = Colors.white,
+    this.historyIconColor = Colors.white,
+    this.refreshIconColor = Colors.white,
+    this.closeIconColor = Colors.white,
+    this.showAppName = false,
+    this.appName,
+    this.addBookmarkIcon,
+    this.removeBookmarkIcon,
+    this.addBookmarkIconColor = Colors.white,
+    this.removeBookmarkIconColor = Colors.white,
+    this.historyCloseIcon,
+    this.historyTitle,
+    this.historyCloseIconColor = Colors.white,
+  }) : super(key: key);
 
   @override
   _InAppBrowserState createState() => _InAppBrowserState();
@@ -24,7 +77,7 @@ class _InAppBrowserState extends State<InAppBrowser> {
   static Widget iconInkWell({Function func, IconData mIcon, Color iconColor}) {
     return InkWell(
       onTap: func,
-      child: Icon(mIcon, color: iconColor),
+      child: mIcon == null ? SizedBox.shrink() : Icon(mIcon, color: iconColor),
     );
   }
 
@@ -50,147 +103,162 @@ class _InAppBrowserState extends State<InAppBrowser> {
         ? Center(
             child: CircularProgressIndicator(),
           )
-        : WebviewScaffold(
-            appBar: AppBar(
-              backgroundColor: Color(0xFF7e1afb),
-              title: Text(
-                widget.mUrl,
-                overflow: TextOverflow.ellipsis,
-              ),
-              leading: InkWell(
-                child: Icon(Icons.close),
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              ),
-              actions: [
-                InkWell(
-                  child: Icon(
-                    _myList.contains(widget.mUrl)
-                        ? Icons.bookmark
-                        : Icons.bookmark_outline_sharp,
-                  ),
-                  onTap: () {
-                    if (!_myList.contains(widget.mUrl)) {
-                      _myList.add(widget.mUrl);
-                    } else {
-                      _myList.remove(widget.mUrl);
-                    }
-                    setState(() {});
-                  },
+        : Directionality(
+            textDirection: widget.mDirection,
+            child: WebviewScaffold(
+              appBar: AppBar(
+                backgroundColor: widget.appBarColor,
+                title: Text(
+                  widget.showAppName ? widget.appName : widget.mUrl,
+                  overflow: TextOverflow.ellipsis,
                 ),
-                SizedBox(width: 10),
-              ],
-            ),
-            url: "https://www.google.com/",
-            bottomNavigationBar: showDialog
-                ? Container(
-                    height: 150,
-                    padding: EdgeInsets.all(8),
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Icon(Icons.close, color: Colors.transparent),
-                            Text(
-                              "نتایج جستجو شما",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 17,
+                leading: widget.closeIcon == null
+                    ? SizedBox.shrink()
+                    : InkWell(
+                        child: Icon(
+                          widget.closeIcon,
+                          color: widget.closeIconColor,
+                        ),
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                actions: [
+                  (widget.addBookmarkIcon == null ||
+                          widget.removeBookmarkIcon == null)
+                      ? SizedBox.shrink()
+                      : InkWell(
+                          child: _myList.contains(widget.mUrl)
+                              ? Icon(
+                                  widget.removeBookmarkIcon,
+                                  color: widget.addBookmarkIconColor,
+                                )
+                              : Icon(
+                                  widget.addBookmarkIcon,
+                                  color: widget.removeBookmarkIconColor,
+                                ),
+                          onTap: () {
+                            if (!_myList.contains(widget.mUrl)) {
+                              _myList.add(widget.mUrl);
+                            } else {
+                              _myList.remove(widget.mUrl);
+                            }
+                            setState(() {});
+                          },
+                        ),
+                  SizedBox(width: 10),
+                ],
+              ),
+              url: "https://www.google.com/",
+              bottomNavigationBar: showDialog
+                  ? Container(
+                      height: 150,
+                      padding: EdgeInsets.all(8),
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Icon(Icons.close, color: Colors.transparent),
+                              Text(
+                                "نتایج جستجو شما",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 17,
+                                ),
                               ),
-                            ),
-                            InkWell(
-                              child: Icon(Icons.close),
-                              onTap: () {
-                                showDialog = false;
-                                setState(() {});
+                              widget.historyCloseIconColor == null
+                                  ? SizedBox.shrink()
+                                  : InkWell(
+                                      child: Icon(
+                                        widget.historyCloseIcon,
+                                        color: widget.historyCloseIconColor,
+                                      ),
+                                      onTap: () {
+                                        showDialog = false;
+                                        setState(() {});
+                                      },
+                                    ),
+                            ],
+                          ),
+                          Expanded(
+                            child: ListView.builder(
+                              itemCount: _myList.length,
+                              itemBuilder: (ctx, index) {
+                                return Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: InkWell(
+                                    child: Text("${_myList[index]}"),
+                                    onTap: () {
+                                      flutterWebViewPlugin
+                                          .reloadUrl(_myList[index]);
+                                    },
+                                  ),
+                                );
                               },
                             ),
-                          ],
-                        ),
-                        Expanded(
-                          child: ListView.builder(
-                            itemCount: _myList.length,
-                            itemBuilder: (ctx, index) {
-                              return Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: InkWell(
-                                  child: Text("${_myList[index]}"),
-                                  onTap: () {
-                                    flutterWebViewPlugin
-                                        .reloadUrl(_myList[index]);
-                                  },
-                                ),
-                              );
-                            },
-                          ),
-                        )
-                      ],
-                    ),
-                  )
-                : SizedBox(
-                    height: 56,
-                    child: Card(
-                      color: Color(0xFF7e1afb),
-                      margin: EdgeInsets.zero,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(0),
+                          )
+                        ],
                       ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          iconInkWell(
-                            func: () {
-                              // _webViewController.canGoBack().then((value) {
-                              //   if (value) _webViewController.goBack();
-                              // });
-                            },
-                            mIcon: Icons.arrow_back_ios,
-                            iconColor: Colors.white,
-                          ),
-                          iconInkWell(
-                            func: () {
-                              flutterWebViewPlugin.canGoForward().then((value) {
-                                if (value) flutterWebViewPlugin.goForward();
-                              });
-                            },
-                            mIcon: Icons.arrow_forward_ios,
-                            iconColor: Colors.white,
-                          ),
-                          iconInkWell(
-                            func: () {
-                              Share.share(widget.mUrl);
-                            },
-                            mIcon: Icons.send,
-                            iconColor: Colors.white,
-                          ),
-                          MediaQuery(
-                            data: MediaQueryData(),
-                            child: InkWell(
-                              child: Icon(Icons.history_rounded,
-                                  color: Colors.white),
-                              onTap: () {
+                    )
+                  : SizedBox(
+                      height: 56,
+                      child: Card(
+                        color: widget.bottomNavColor,
+                        margin: EdgeInsets.zero,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(0),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            iconInkWell(
+                              func: () {
+                                flutterWebViewPlugin.canGoBack().then((value) {
+                                  if (value) flutterWebViewPlugin.goBack();
+                                });
+                              },
+                              mIcon: widget.backIcon,
+                              iconColor: widget.backIconColor,
+                            ),
+                            iconInkWell(
+                              func: () {
+                                flutterWebViewPlugin
+                                    .canGoForward()
+                                    .then((value) {
+                                  if (value) flutterWebViewPlugin.goForward();
+                                });
+                              },
+                              mIcon: widget.nextIcon,
+                              iconColor: widget.nextIconColor,
+                            ),
+                            iconInkWell(
+                              func: () {
+                                Share.share(widget.mUrl);
+                              },
+                              mIcon: widget.shareIcon,
+                              iconColor: widget.shareIconColor,
+                            ),
+                            iconInkWell(
+                              mIcon: widget.historyIcon,
+                              iconColor: widget.historyIconColor,
+                              func: () {
                                 showDialog = true;
                                 setState(() {});
                               },
                             ),
-                          ),
-                          iconInkWell(
-                            mIcon: Icons.refresh,
-                            iconColor: Colors.white,
-                            func: () {
-                              flutterWebViewPlugin.reload();
-                              // _webViewController.currentUrl().then((value) {
-                              //   myUrl = value;
-                              //   _webViewController.reload();
-                              // });
-                            },
-                          ),
-                        ],
+                            iconInkWell(
+                              mIcon: widget.refreshIcon,
+                              iconColor: widget.refreshIconColor,
+                              func: () {
+                                flutterWebViewPlugin.reload();
+                              },
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
+            ),
           );
   }
 }
