@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:in_app_browser/in_app_browser.dart';
 import 'dart:async';
 
-import 'package:flutter/services.dart';
-import 'package:in_app_browser/in_app_browser.dart';
+import 'package:in_app_browser_example/home.dart';
 
 void main() {
   runApp(MyApp());
@@ -19,7 +19,6 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    // initPlatformState();
   }
 
   // Platform messages are asynchronous, so we initialize in an async method.
@@ -46,11 +45,12 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: InAppBrowser.launchUrl(
-        url: "https://www.google.com/",
-        contextParam: context,
-        paddingRight: 5.0,
-      ),
+      home: InAppBrowser(mUrl: "https://www.google.com/"),
+      // home: InAppBrowser.launchUrl(
+      //   url: "https://www.google.com/",
+      //   contextParam: context,
+      //   paddingRight: 5.0,
+      // ),
       // home: Scaffold(
       //   appBar: AppBar(
       //     title: const Text('Plugin example app'),
