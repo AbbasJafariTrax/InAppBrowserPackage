@@ -12,7 +12,9 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_webview_plugin: ^0.4.0
+  path_provider: ^2.0.4
   share: ^2.0.4
+  sqflite: ^2.0.0+4
 
 dev_dependencies:
   flutter_test:
@@ -36,8 +38,8 @@ flutter:
         pluginClass: InAppBrowserPlugin
 
   # To add assets to your plugin package, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
+  assets:
+    - assets/images/
   #   - images/a_dot_ham.jpeg
   #
   # For details regarding assets in packages, see
