@@ -53,7 +53,7 @@ class InAppBrowser extends StatefulWidget {
   final String historyTitle;
   final double appbarTxtSize;
   final FontWeight appbarFontWeight;
-  final double historyDialogSize;
+  double historyDialogSize;
 
   InAppBrowser(
     this.mUrl, {
@@ -84,7 +84,7 @@ class InAppBrowser extends StatefulWidget {
     this.historyCloseIconColor = Colors.white,
     this.appbarTxtSize = 15,
     this.appbarFontWeight = FontWeight.bold,
-    this.historyDialogSize = 100,
+    this.historyDialogSize = 200,
   }) : super(key: key);
 
   @override
@@ -100,6 +100,8 @@ class _InAppBrowserState extends State<InAppBrowser>
   List<Map<dynamic, dynamic>> _myList = [];
   bool isLoading = true;
   bool showDialog = false;
+  bool isDialogFull = false;
+  double tempHistoryDialogSize = 0;
 
   static Widget iconInkWell({Function func, IconData mIcon, Color iconColor}) {
     return InkWell(
@@ -112,6 +114,8 @@ class _InAppBrowserState extends State<InAppBrowser>
   void initState() {
     // TODO: implement initState
     super.initState();
+
+    tempHistoryDialogSize = widget.historyDialogSize;
 
     flutterWebViewPlugin.onUrlChanged.forEach((element) {
       widget.mUrl = element;
@@ -136,327 +140,389 @@ class _InAppBrowserState extends State<InAppBrowser>
     });
   }
 
+  void mDispose() {
+    if (showDialog) {
+      showDialog = false;
+      isDialogFull = false;
+      widget.historyDialogSize = tempHistoryDialogSize;
+      setState(() {});
+    } else {
+      flutterWebViewPlugin.dispose();
+      flutterWebViewPlugin.hide();
+
+      Future.delayed(Duration(microseconds: 10), () {
+        Navigator.pop(context);
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return isLoading
         ? SizedBox.shrink()
-        : Directionality(
-            textDirection: widget.mDirection,
-            child: WebviewScaffold(
-              appBar: AppBar(
-                backgroundColor: widget.appBarColor,
-                title: Text(
-                  widget.showAppName ? widget.appName : widget.mUrl,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontWeight: widget.appbarFontWeight,
-                    fontSize: widget.appbarTxtSize,
-                  ),
-                ),
-                leading: widget.closeIcon == null
-                    ? SizedBox.shrink()
-                    : InkWell(
-                        child: Icon(
-                          widget.closeIcon,
-                          color: widget.closeIconColor,
-                        ),
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                      ),
-                actions: [
-                  (widget.addBookmarkIcon == null ||
-                          widget.removeBookmarkIcon == null)
-                      ? SizedBox.shrink()
-                      : InkWell(
-                          child: _myList
-                                  .where((element) =>
-                                      element['url'] == widget.mUrl)
-                                  .isNotEmpty
-                              ? Icon(
-                                  widget.removeBookmarkIcon,
-                                  color: widget.removeBookmarkIconColor,
-                                )
-                              : Icon(
-                                  widget.addBookmarkIcon,
-                                  color: widget.addBookmarkIconColor,
-                                ),
-                          onTap: () async {
-                            await _storeProvider
-                                .checkValue(widget.mUrl)
-                                .then((value) async {
-                              if (value == null) {
-                                String html =
-                                    await flutterWebViewPlugin.evalJavascript(
-                                        "window.document.getElementsByTagName('html')[0].outerHTML;");
-
-                                String title = "";
-                                if (html.contains("u003Ctitle>") &&
-                                    html.contains("u003Ctitle>"))
-                                  title = html.substring(
-                                      html.indexOf("u003Ctitle>") + 11,
-                                      html.indexOf("u003C/title>"));
-                                else
-                                  title = "Your Url";
-
-                                HistoryItem historyItem = HistoryItem();
-
-                                historyItem.title = title;
-                                historyItem.url = widget.mUrl;
-                                historyItem.time =
-                                    DateTime.now().millisecondsSinceEpoch;
-
-                                _storeProvider.insert(historyItem);
-
-                                _myList.add({
-                                  "_id": historyItem.time,
-                                  "title": title,
-                                  "url": widget.mUrl,
-                                  "time": historyItem.time,
-                                });
-                              } else {
-                                _storeProvider.delete(value.id);
-
-                                _myList.removeWhere(
-                                  (element) => element["url"] == value.url,
-                                );
-                              }
-                              setState(() {});
-                            });
-                          },
-                        ),
-                  SizedBox(width: 10),
-                ],
-              ),
-              url: widget.mUrl,
-              withJavascript: true,
-              bottomNavigationBar: showDialog
-                  ? Container(
-                      height: widget.historyDialogSize,
-                      decoration: BoxDecoration(
-                        color: widget.bottomNavColor,
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(10),
-                          topRight: Radius.circular(10),
-                        ),
-                      ),
-                      padding: EdgeInsets.symmetric(horizontal: 5),
-                      child: Column(
-                        children: [
-                          Icon(
-                            Icons.remove,
-                            color: Colors.grey,
-                            size: 30,
+        : WillPopScope(
+            onWillPop: () {
+              mDispose();
+            },
+            child: Directionality(
+              textDirection: widget.mDirection,
+              child: WebviewScaffold(
+                appBar: isDialogFull
+                    ? null
+                    : AppBar(
+                        backgroundColor: widget.appBarColor,
+                        title: Text(
+                          widget.showAppName ? widget.appName : widget.mUrl,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontWeight: widget.appbarFontWeight,
+                            fontSize: widget.appbarTxtSize,
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                              bottom: 8.0,
-                              top: 10,
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                    left: MediaQuery.of(context).size.width *
-                                        0.02,
-                                  ),
-                                  child: InkWell(
-                                    child: Text(
-                                      "پاک کردن",
-                                      style: TextStyle(
-                                        fontSize: 15,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                    onTap: () {
-                                      _myList.clear();
-                                      _storeProvider.deleteAll();
+                        ),
+                        leading: widget.closeIcon == null
+                            ? SizedBox.shrink()
+                            : InkWell(
+                                child: Icon(
+                                  widget.closeIcon,
+                                  color: widget.closeIconColor,
+                                ),
+                                onTap: mDispose,
+                              ),
+                        actions: [
+                          (widget.addBookmarkIcon == null ||
+                                  widget.removeBookmarkIcon == null)
+                              ? SizedBox.shrink()
+                              : InkWell(
+                                  child: _myList
+                                          .where((element) =>
+                                              element['url'] == widget.mUrl)
+                                          .isNotEmpty
+                                      ? Icon(
+                                          widget.removeBookmarkIcon,
+                                          color: widget.removeBookmarkIconColor,
+                                        )
+                                      : Icon(
+                                          widget.addBookmarkIcon,
+                                          color: widget.addBookmarkIconColor,
+                                        ),
+                                  onTap: () async {
+                                    await _storeProvider
+                                        .checkValue(widget.mUrl)
+                                        .then((value) async {
+                                      if (value == null) {
+                                        String html = await flutterWebViewPlugin
+                                            .evalJavascript(
+                                                "window.document.getElementsByTagName('html')[0].outerHTML;");
+
+                                        String title = "";
+                                        if (html.contains("u003Ctitle>") &&
+                                            html.contains("u003Ctitle>"))
+                                          title = html.substring(
+                                              html.indexOf("u003Ctitle>") + 11,
+                                              html.indexOf("u003C/title>"));
+                                        else
+                                          title = "Your Url";
+
+                                        HistoryItem historyItem = HistoryItem();
+
+                                        historyItem.title = title;
+                                        historyItem.url = widget.mUrl;
+                                        historyItem.time = DateTime.now()
+                                            .millisecondsSinceEpoch;
+
+                                        _storeProvider.insert(historyItem);
+
+                                        _myList.add({
+                                          "_id": historyItem.time,
+                                          "title": title,
+                                          "url": widget.mUrl,
+                                          "time": historyItem.time,
+                                        });
+                                      } else {
+                                        _storeProvider.delete(value.id);
+
+                                        _myList.removeWhere(
+                                          (element) =>
+                                              element["url"] == value.url,
+                                        );
+                                      }
                                       setState(() {});
-                                    },
-                                  ),
+                                    });
+                                  },
                                 ),
-                                Text(
-                                  widget.historyTitle,
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 17,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                widget.historyCloseIconColor == null
-                                    ? SizedBox.shrink()
-                                    : Padding(
-                                        padding: EdgeInsets.only(
-                                          right: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.02,
-                                        ),
-                                        child: InkWell(
-                                          child: Icon(
-                                            widget.historyCloseIcon,
-                                            color: widget.historyCloseIconColor,
-                                          ),
-                                          onTap: () {
-                                            showDialog = false;
-                                            setState(() {});
-                                          },
-                                        ),
-                                      ),
-                              ],
-                            ),
-                          ),
-                          Divider(color: Colors.white),
-                          Expanded(
-                            child: ListView.builder(
-                              itemCount: _myList.length,
-                              itemBuilder: (ctx, index) {
-                                int dayDB = DateTime.fromMillisecondsSinceEpoch(
-                                        _myList[index]["time"])
-                                    .day;
-                                int monthDB =
-                                    DateTime.fromMillisecondsSinceEpoch(
-                                            _myList[index]["time"])
-                                        .month;
-                                return Row(
-                                  children: [
-                                    SizedBox(
-                                      height:
-                                          MediaQuery.of(context).size.width *
-                                              0.15,
-                                      width: MediaQuery.of(context).size.width *
-                                          0.15,
-                                      child: Icon(
-                                        Icons.link_outlined,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: MediaQuery.of(context).size.width *
-                                          0.01,
-                                    ),
-                                    Column(
-                                      children: [
-                                        SizedBox(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.8,
-                                          child: Text(
-                                            "${_myList[index]["title"]}",
-                                            overflow: TextOverflow.ellipsis,
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .height *
-                                              0.01,
-                                        ),
-                                        SizedBox(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.8,
-                                          child: Text(
-                                            "${_myList[index]["url"]}",
-                                            overflow: TextOverflow.ellipsis,
-                                            style: TextStyle(
-                                              color: Colors.grey,
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .height *
-                                              0.01,
-                                        ),
-                                        SizedBox(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.8,
-                                          child: Text(
-                                            "${months[monthDB - 1]} $dayDB",
-                                            overflow: TextOverflow.ellipsis,
-                                            style: TextStyle(
-                                              color: Colors.grey,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                );
-                              },
-                            ),
-                          )
+                          SizedBox(width: 10),
                         ],
                       ),
-                    )
-                  : SizedBox(
-                      height: 56,
-                      child: Card(
-                        color: widget.bottomNavColor,
-                        margin: EdgeInsets.zero,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(0),
+                url: widget.mUrl,
+                withLocalStorage: true,
+                withJavascript: true,
+                bottomNavigationBar: showDialog
+                    ? Container(
+                        height: widget.historyDialogSize,
+                        decoration: BoxDecoration(
+                          color: widget.bottomNavColor,
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(isDialogFull ? 0 : 10),
+                            topRight: Radius.circular(isDialogFull ? 0 : 10),
+                          ),
                         ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        padding: EdgeInsets.symmetric(horizontal: 5),
+                        child: Column(
                           children: [
-                            iconInkWell(
-                              func: () {
-                                flutterWebViewPlugin.canGoBack().then((value) {
-                                  if (value) flutterWebViewPlugin.goBack();
-                                });
+                            // Icon(
+                            //   Icons.remove,
+                            //   color: Colors.grey,
+                            //   size: 40,
+                            // ),
+                            GestureDetector(
+                              onPanUpdate: (details) {
+                                print("Mahdi: y ${details.delta.dy}");
+                                print("Mahdi: x ${details.delta.dx}");
+
+                                double appbarSize =
+                                    MediaQuery.of(context).size.height;
+
+                                if (details.delta.dy < -3 &&
+                                    widget.historyDialogSize != appbarSize) {
+                                  widget.historyDialogSize = appbarSize;
+                                  isDialogFull = true;
+                                  setState(() {});
+                                } else if (details.delta.dy > 3 && showDialog) {
+                                  showDialog = false;
+                                  isDialogFull = false;
+                                  widget.historyDialogSize =
+                                      tempHistoryDialogSize;
+
+                                  setState(() {});
+                                }
                               },
-                              mIcon: widget.backIcon,
-                              iconColor: widget.backIconColor,
+                              child: Text(
+                                "━━",
+                                style:
+                                    TextStyle(fontSize: 20, color: Colors.grey),
+                              ),
                             ),
-                            iconInkWell(
-                              func: () {
-                                flutterWebViewPlugin
-                                    .canGoForward()
-                                    .then((value) {
-                                  if (value) flutterWebViewPlugin.goForward();
-                                });
-                              },
-                              mIcon: widget.nextIcon,
-                              iconColor: widget.nextIconColor,
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                bottom: 8.0,
+                                top: 8.0,
+                              ),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                      left: MediaQuery.of(context).size.width *
+                                          0.02,
+                                    ),
+                                    child: InkWell(
+                                      child: Text(
+                                        "پاک کردن",
+                                        style: TextStyle(
+                                          fontSize: 15,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      onTap: () {
+                                        _myList.clear();
+                                        _storeProvider.deleteAll();
+                                        setState(() {});
+                                      },
+                                    ),
+                                  ),
+                                  Text(
+                                    widget.historyTitle,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 17,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  widget.historyCloseIconColor == null
+                                      ? SizedBox.shrink()
+                                      : Padding(
+                                          padding: EdgeInsets.only(
+                                            right: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.02,
+                                          ),
+                                          child: InkWell(
+                                            child: Icon(
+                                              widget.historyCloseIcon,
+                                              color:
+                                                  widget.historyCloseIconColor,
+                                            ),
+                                            onTap: () {
+                                              showDialog = false;
+                                              isDialogFull = false;
+                                              widget.historyDialogSize =
+                                                  tempHistoryDialogSize;
+
+                                              setState(() {});
+                                            },
+                                          ),
+                                        ),
+                                ],
+                              ),
                             ),
-                            iconInkWell(
-                              func: () {
-                                Share.share(widget.mUrl);
-                              },
-                              mIcon: widget.shareIcon,
-                              iconColor: widget.shareIconColor,
-                            ),
-                            iconInkWell(
-                              mIcon: widget.historyIcon,
-                              iconColor: widget.historyIconColor,
-                              func: () {
-                                showDialog = true;
-                                setState(() {});
-                              },
-                            ),
-                            iconInkWell(
-                              mIcon: widget.refreshIcon,
-                              iconColor: widget.refreshIconColor,
-                              func: () {
-                                flutterWebViewPlugin.reload();
-                              },
-                            ),
+                            Divider(color: Colors.white),
+                            Expanded(
+                              child: ListView.builder(
+                                itemCount: _myList.length,
+                                itemBuilder: (ctx, index) {
+                                  int dayDB =
+                                      DateTime.fromMillisecondsSinceEpoch(
+                                              _myList[index]["time"])
+                                          .day;
+                                  int monthDB =
+                                      DateTime.fromMillisecondsSinceEpoch(
+                                              _myList[index]["time"])
+                                          .month;
+                                  return Row(
+                                    children: [
+                                      SizedBox(
+                                        height:
+                                            MediaQuery.of(context).size.width *
+                                                0.15,
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.15,
+                                        child: Icon(
+                                          Icons.link_outlined,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.01,
+                                      ),
+                                      Column(
+                                        children: [
+                                          SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.8,
+                                            child: Text(
+                                              "${_myList[index]["title"]}",
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.01,
+                                          ),
+                                          SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.8,
+                                            child: Text(
+                                              "${_myList[index]["url"]}",
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                color: Colors.grey,
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.01,
+                                          ),
+                                          SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.8,
+                                            child: Text(
+                                              "${months[monthDB - 1]} $dayDB",
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                color: Colors.grey,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  );
+                                },
+                              ),
+                            )
                           ],
                         ),
+                      )
+                    : SizedBox(
+                        height: 56,
+                        child: Card(
+                          color: widget.bottomNavColor,
+                          margin: EdgeInsets.zero,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(0),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              iconInkWell(
+                                func: () {
+                                  flutterWebViewPlugin
+                                      .canGoBack()
+                                      .then((value) {
+                                    if (value) flutterWebViewPlugin.goBack();
+                                  });
+                                },
+                                mIcon: widget.backIcon,
+                                iconColor: widget.backIconColor,
+                              ),
+                              iconInkWell(
+                                func: () {
+                                  flutterWebViewPlugin
+                                      .canGoForward()
+                                      .then((value) {
+                                    if (value) flutterWebViewPlugin.goForward();
+                                  });
+                                },
+                                mIcon: widget.nextIcon,
+                                iconColor: widget.nextIconColor,
+                              ),
+                              iconInkWell(
+                                func: () {
+                                  Share.share(widget.mUrl);
+                                },
+                                mIcon: widget.shareIcon,
+                                iconColor: widget.shareIconColor,
+                              ),
+                              iconInkWell(
+                                mIcon: widget.historyIcon,
+                                iconColor: widget.historyIconColor,
+                                func: () {
+                                  showDialog = true;
+                                  setState(() {});
+                                },
+                              ),
+                              iconInkWell(
+                                mIcon: widget.refreshIcon,
+                                iconColor: widget.refreshIconColor,
+                                func: () {
+                                  flutterWebViewPlugin.reload();
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
-                    ),
+              ),
             ),
           );
   }

@@ -10,7 +10,7 @@ final String _tableName = 'main_value';
 
 final String columnId = '_id';
 final String columnTitle = 'title';
-final String columnUrl = "url";
+final String columnUrl = "webUrl";
 final String columnTime = "time";
 
 class HistoryItem {
