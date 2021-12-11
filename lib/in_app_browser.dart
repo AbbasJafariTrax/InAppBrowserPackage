@@ -1,11 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:in_app_browser/MyManagement/HistoryStorage.dart';
 import 'package:share/share.dart';
-import 'package:sqflite/sqflite.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 // import 'package:webview_flutter/webview_flutter.dart';
 
 List<String> months = [
@@ -94,8 +93,10 @@ class InAppBrowser extends StatefulWidget {
 class _InAppBrowserState extends State<InAppBrowser>
     with TickerProviderStateMixin {
   final flutterWebViewPlugin = FlutterWebviewPlugin();
-  Database _storeDB;
-  HistoryStoreProvider _storeProvider = HistoryStoreProvider();
+
+  // Database _storeDB;
+  // HistoryStoreProvider _storeProvider = HistoryStoreProvider();
+  SharedPreferences prefs;
 
   List<Map<dynamic, dynamic>> _myList = [];
   bool isLoading = true;
@@ -124,20 +125,39 @@ class _InAppBrowserState extends State<InAppBrowser>
 
     Future.delayed(Duration.zero, () {
       isLoading = false;
-      initialDB();
-      setState(() {});
+      // initialDB();
+      initailSP();
     });
   }
 
-  void initialDB() async {
-    _storeDB = await _storeProvider.open();
+  void initailSP() async {
+    prefs = await SharedPreferences.getInstance();
+    List<String> mKeys = prefs.getKeys().toList();
 
-    _storeProvider.getAllHistoryItem().then((value) {
-      if (value != null)
-        value.forEach((element) {
-          _myList.add(element);
-        });
+    print("Mahdi: 123: $mKeys : ${mKeys.isNotEmpty}");
+
+    if (mKeys.isNotEmpty)
+      mKeys.forEach((key) {
+        print("Mahdi: foreach: 1 $key");
+        if (key.contains("URL: ")) {
+          String value = prefs.getString(key);
+          print("Mahdi: foreach: 2 $key");
+          _myList.add({
+            "title": value.substring(0, value.indexOf(",")),
+            "url": key.substring(5, key.length),
+            "time": value.substring(value.indexOf(",") + 2, value.length),
+          });
+        }
+      });
+    print("Mahdi: key: $_myList");
+
+    _myList.forEach((element) {
+      print("Mahdi: where: 1 ${element['url'] == widget.mUrl}");
+      print("Mahdi: where: 2 ${widget.mUrl}");
+      print("Mahdi: where: 3 ${element['url']}");
     });
+
+    setState(() {});
   }
 
   void mDispose() {
@@ -206,56 +226,61 @@ class _InAppBrowserState extends State<InAppBrowser>
                                           color: widget.addBookmarkIconColor,
                                         ),
                                   onTap: () async {
-                                    await _storeProvider
-                                        .checkValue(widget.mUrl)
-                                        .then((value) async {
-                                      if (value == null) {
-                                        String html = await flutterWebViewPlugin
-                                            .evalJavascript(
-                                                "window.document.getElementsByTagName('html')[0].outerHTML;");
+                                    String value =
+                                        prefs.getString("URL: ${widget.mUrl}");
 
-                                        String title = "";
-                                        if (html.contains("u003Ctitle>") &&
-                                            html.contains("u003Ctitle>"))
-                                          title = html.substring(
-                                              html.indexOf("u003Ctitle>") + 11,
-                                              html.indexOf("u003C/title>"));
-                                        else
-                                          title = "Your Url";
+                                    if (value == null) {
+                                      String html = await flutterWebViewPlugin
+                                          .evalJavascript(
+                                              "window.document.getElementsByTagName('html')[0].outerHTML;");
 
-                                        HistoryItem historyItem = HistoryItem();
+                                      String title = "";
+                                      if (html.contains("u003Ctitle>") &&
+                                          html.contains("u003Ctitle>"))
+                                        title = html.substring(
+                                            html.indexOf("u003Ctitle>") + 11,
+                                            html.indexOf("u003C/title>"));
+                                      else
+                                        title = "Your Url";
 
-                                        historyItem.title = title;
-                                        historyItem.url = widget.mUrl;
-                                        historyItem.time = DateTime.now()
-                                            .millisecondsSinceEpoch;
+                                      HistoryItem historyItem = HistoryItem();
 
-                                        _storeProvider.insert(historyItem);
+                                      historyItem.title = title;
+                                      historyItem.url = widget.mUrl;
+                                      historyItem.time =
+                                          DateTime.now().millisecondsSinceEpoch;
 
-                                        _myList.add({
-                                          "_id": historyItem.time,
-                                          "title": title,
-                                          "url": widget.mUrl,
-                                          "time": historyItem.time,
-                                        });
-                                      } else {
-                                        _storeProvider.delete(value.id);
+                                      // _storeProvider.insert(historyItem);
 
-                                        _myList.removeWhere(
-                                          (element) =>
-                                              element["url"] == value.url,
-                                        );
-                                      }
-                                      setState(() {});
-                                    });
+                                      prefs.setString(
+                                          "URL: " + historyItem.url,
+                                          historyItem.title +
+                                              ", " +
+                                              "${historyItem.time}");
+
+                                      _myList.add({
+                                        // "_id": historyItem.time,
+                                        "title": historyItem.url,
+                                        "url": historyItem.url,
+                                        "time": historyItem.time,
+                                      });
+                                    } else {
+                                      // _storeProvider.delete(value.id);
+
+                                      prefs.remove("URL: " + widget.mUrl);
+
+                                      _myList.removeWhere(
+                                        (element) =>
+                                            element["url"] == widget.mUrl,
+                                      );
+                                    }
+                                    setState(() {});
                                   },
                                 ),
                           SizedBox(width: 10),
                         ],
                       ),
                 url: widget.mUrl,
-                withLocalStorage: true,
-                withJavascript: true,
                 bottomNavigationBar: showDialog
                     ? Container(
                         height: widget.historyDialogSize,
@@ -325,8 +350,8 @@ class _InAppBrowserState extends State<InAppBrowser>
                                         ),
                                       ),
                                       onTap: () {
-                                        _myList.clear();
-                                        _storeProvider.deleteAll();
+                                        // _myList.clear();
+                                        // prefs.clear();
                                         setState(() {});
                                       },
                                     ),
@@ -374,11 +399,13 @@ class _InAppBrowserState extends State<InAppBrowser>
                                 itemBuilder: (ctx, index) {
                                   int dayDB =
                                       DateTime.fromMillisecondsSinceEpoch(
-                                              _myList[index]["time"])
+                                          int.parse(
+                                              "${_myList[index]["time"]}"))
                                           .day;
                                   int monthDB =
                                       DateTime.fromMillisecondsSinceEpoch(
-                                              _myList[index]["time"])
+                                          int.parse(
+                                              "${_myList[index]["time"]}"))
                                           .month;
                                   return Row(
                                     children: [
