@@ -1,6 +1,6 @@
 # in_app_browser
 
-A new flutter plugin project.
+Simple in app browser for you application.
 
 ## Getting Started
 
