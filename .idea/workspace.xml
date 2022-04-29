@@ -2,21 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3652c71b-aef5-416c-82e4-fdcec260c954" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/assets/images/remove.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/images/bookmark_add.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/images/bookmark_remove.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/MyManagement/HistoryStorage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/MyManagement/HistoryStorage.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/in_app_browser.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/in_app_browser.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CHANGELOG.md" beforeDir="false" afterPath="$PROJECT_DIR$/CHANGELOG.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LICENSE" beforeDir="false" afterPath="$PROJECT_DIR$/LICENSE" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="uo999xr8q4twm7rs" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="Pixel_3a_XL_API_30" />
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
@@ -64,31 +61,35 @@
     <servers />
   </component>
   <component name="WindowStateProjectService">
-    <state width="1257" height="221" key="GridCell.Tab.0.bottom" timestamp="1638784837251">
+    <state width="1267" height="220" key="GridCell.Tab.0.bottom" timestamp="1639226535035">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
     <state width="1397" height="221" key="GridCell.Tab.0.bottom/0.0.1600.860/1600.0.1440.860@1600.0.1440.860" timestamp="1638428546969" />
-    <state width="1257" height="221" key="GridCell.Tab.0.bottom/0.0.1600.860@0.0.1600.860" timestamp="1638784837251" />
-    <state width="1257" height="221" key="GridCell.Tab.0.center" timestamp="1638784837251">
+    <state width="1267" height="220" key="GridCell.Tab.0.bottom/0.0.1600.860@0.0.1600.860" timestamp="1639226535035" />
+    <state width="1267" height="220" key="GridCell.Tab.0.center" timestamp="1639226535034">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
     <state width="1397" height="221" key="GridCell.Tab.0.center/0.0.1600.860/1600.0.1440.860@1600.0.1440.860" timestamp="1638428546968" />
-    <state width="1257" height="221" key="GridCell.Tab.0.center/0.0.1600.860@0.0.1600.860" timestamp="1638784837251" />
-    <state width="1257" height="221" key="GridCell.Tab.0.left" timestamp="1638784837251">
+    <state width="1267" height="220" key="GridCell.Tab.0.center/0.0.1600.860@0.0.1600.860" timestamp="1639226535034" />
+    <state width="1267" height="220" key="GridCell.Tab.0.left" timestamp="1639226535034">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
     <state width="1397" height="221" key="GridCell.Tab.0.left/0.0.1600.860/1600.0.1440.860@1600.0.1440.860" timestamp="1638428546968" />
-    <state width="1257" height="221" key="GridCell.Tab.0.left/0.0.1600.860@0.0.1600.860" timestamp="1638784837251" />
-    <state width="1257" height="221" key="GridCell.Tab.0.right" timestamp="1638784837251">
+    <state width="1267" height="220" key="GridCell.Tab.0.left/0.0.1600.860@0.0.1600.860" timestamp="1639226535034" />
+    <state width="1267" height="220" key="GridCell.Tab.0.right" timestamp="1639226535035">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
     <state width="1397" height="221" key="GridCell.Tab.0.right/0.0.1600.860/1600.0.1440.860@1600.0.1440.860" timestamp="1638428546968" />
-    <state width="1257" height="221" key="GridCell.Tab.0.right/0.0.1600.860@0.0.1600.860" timestamp="1638784837251" />
-    <state x="337" y="254" key="com.intellij.ide.util.TipDialog" timestamp="1638360258115">
+    <state width="1267" height="220" key="GridCell.Tab.0.right/0.0.1600.860@0.0.1600.860" timestamp="1639226535035" />
+    <state width="498" height="446" key="SwitcherDM" timestamp="1639224922189">
+      <screen x="0" y="0" width="1600" height="860" />
+    </state>
+    <state width="498" height="446" key="SwitcherDM/0.0.1600.860@0.0.1600.860" timestamp="1639224922189" />
+    <state x="337" y="254" key="com.intellij.ide.util.TipDialog" timestamp="1638937021588">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
     <state x="337" y="254" key="com.intellij.ide.util.TipDialog/0.0.1600.860/1600.0.1440.860@0.0.1600.860" timestamp="1638360258115" />
-    <state x="337" y="254" key="com.intellij.ide.util.TipDialog/0.0.1600.860@0.0.1600.860" timestamp="1638343190655" />
+    <state x="337" y="254" key="com.intellij.ide.util.TipDialog/0.0.1600.860@0.0.1600.860" timestamp="1638937021588" />
     <state x="462" y="162" width="675" height="536" key="find.popup" timestamp="1638780896704">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
