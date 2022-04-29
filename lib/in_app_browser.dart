@@ -5,7 +5,6 @@ import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:in_app_browser/MyManagement/HistoryStorage.dart';
 import 'package:share/share.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-// import 'package:webview_flutter/webview_flutter.dart';
 
 List<String> months = [
   "January",
@@ -94,8 +93,6 @@ class _InAppBrowserState extends State<InAppBrowser>
     with TickerProviderStateMixin {
   final flutterWebViewPlugin = FlutterWebviewPlugin();
 
-  // Database _storeDB;
-  // HistoryStoreProvider _storeProvider = HistoryStoreProvider();
   SharedPreferences prefs;
 
   List<Map<dynamic, dynamic>> _myList = [];
@@ -125,7 +122,6 @@ class _InAppBrowserState extends State<InAppBrowser>
 
     Future.delayed(Duration.zero, () {
       isLoading = false;
-      // initialDB();
       initailSP();
     });
   }
@@ -134,14 +130,10 @@ class _InAppBrowserState extends State<InAppBrowser>
     prefs = await SharedPreferences.getInstance();
     List<String> mKeys = prefs.getKeys().toList();
 
-    print("Mahdi: 123: $mKeys : ${mKeys.isNotEmpty}");
-
     if (mKeys.isNotEmpty)
       mKeys.forEach((key) {
-        print("Mahdi: foreach: 1 $key");
         if (key.contains("URL: ")) {
           String value = prefs.getString(key);
-          print("Mahdi: foreach: 2 $key");
           _myList.add({
             "title": value.substring(0, value.indexOf(",")),
             "url": key.substring(5, key.length),
@@ -149,12 +141,8 @@ class _InAppBrowserState extends State<InAppBrowser>
           });
         }
       });
-    print("Mahdi: key: $_myList");
 
     _myList.forEach((element) {
-      print("Mahdi: where: 1 ${element['url'] == widget.mUrl}");
-      print("Mahdi: where: 2 ${widget.mUrl}");
-      print("Mahdi: where: 3 ${element['url']}");
     });
 
     setState(() {});
@@ -250,8 +238,6 @@ class _InAppBrowserState extends State<InAppBrowser>
                                       historyItem.time =
                                           DateTime.now().millisecondsSinceEpoch;
 
-                                      // _storeProvider.insert(historyItem);
-
                                       prefs.setString(
                                           "URL: " + historyItem.url,
                                           historyItem.title +
@@ -259,13 +245,11 @@ class _InAppBrowserState extends State<InAppBrowser>
                                               "${historyItem.time}");
 
                                       _myList.add({
-                                        // "_id": historyItem.time,
                                         "title": historyItem.url,
                                         "url": historyItem.url,
                                         "time": historyItem.time,
                                       });
                                     } else {
-                                      // _storeProvider.delete(value.id);
 
                                       prefs.remove("URL: " + widget.mUrl);
 
@@ -294,15 +278,8 @@ class _InAppBrowserState extends State<InAppBrowser>
                         padding: EdgeInsets.symmetric(horizontal: 5),
                         child: Column(
                           children: [
-                            // Icon(
-                            //   Icons.remove,
-                            //   color: Colors.grey,
-                            //   size: 40,
-                            // ),
                             GestureDetector(
                               onPanUpdate: (details) {
-                                print("Mahdi: y ${details.delta.dy}");
-                                print("Mahdi: x ${details.delta.dx}");
 
                                 double appbarSize =
                                     MediaQuery.of(context).size.height;
@@ -350,8 +327,6 @@ class _InAppBrowserState extends State<InAppBrowser>
                                         ),
                                       ),
                                       onTap: () {
-                                        // _myList.clear();
-                                        // prefs.clear();
                                         setState(() {});
                                       },
                                     ),
@@ -554,156 +529,3 @@ class _InAppBrowserState extends State<InAppBrowser>
           );
   }
 }
-
-// static WebViewController _webViewController;
-
-// final Completer<WebViewController> _controller =
-//     Completer<WebViewController>();
-
-// static const MethodChannel _channel = const MethodChannel('in_app_browser');
-//
-// static Future<String> get platformVersion async {
-//   final String version = await _channel.invokeMethod('getPlatformVersion');
-//   return version;
-// }
-
-// static String myUrl = "";
-// static List<String> _myList = [];
-// final flutterWebViewPlugin = FlutterWebviewPlugin();
-//
-// final Set<JavascriptChannel> jsChannels = [
-//   JavascriptChannel(
-//       name: 'Print',
-//       onMessageReceived: (JavascriptMessage message) {
-//         print(message.message);
-//       }),
-// ].toSet();
-//
-// static Widget launchUrl({
-//   @required String url,
-//   @required BuildContext contextParam,
-//   @required paddingRight,
-// }) {
-//   myUrl = url;
-//   return Scaffold(
-//     appBar: AppBar(
-//       title: Text(myUrl),
-//       leading: InkWell(
-//         child: Icon(Icons.close),
-//         onTap: () {
-//           Navigator.pop(contextParam);
-//         },
-//       ),
-//       actions: [
-//         InkWell(
-//           child: Icon(Icons.bookmark_outline_sharp),
-//           onTap: () {
-//             // _webViewController.currentUrl().then((value) {
-//             //   if (!_myList.contains(value)) {
-//             //     _myList.add(value);
-//             //   }
-//             // });
-//           },
-//         ),
-//         SizedBox(width: paddingRight),
-//       ],
-//     ),
-//     body: WebviewScaffold(
-//       url: myUrl,
-//       javascriptChannels: jsChannels,
-//       // onWebViewCreated: (WebViewController webCtrl) async {
-//       //   myUrl = await webCtrl.currentUrl();
-//       //   _webViewController = webCtrl;
-//       // },
-//     ),
-//     bottomNavigationBar: SizedBox(
-//       height: 56,
-//       child: Card(
-//         color: Colors.blue,
-//         margin: EdgeInsets.zero,
-//         shape: RoundedRectangleBorder(
-//           borderRadius: BorderRadius.circular(0),
-//         ),
-//         child: Row(
-//           mainAxisAlignment: MainAxisAlignment.spaceAround,
-//           children: [
-//             iconInkWell(
-//               func: () {
-//                 // _webViewController.canGoBack().then((value) {
-//                 //   if (value) _webViewController.goBack();
-//                 // });
-//
-//               },
-//               mIcon: Icons.arrow_back_ios,
-//               iconColor: Colors.white,
-//             ),
-//             iconInkWell(
-//               func: () {
-//                 _webViewController.canGoForward().then((value) {
-//                   if (value) _webViewController.goForward();
-//                 });
-//               },
-//               mIcon: Icons.arrow_forward_ios,
-//               iconColor: Colors.white,
-//             ),
-//             iconInkWell(
-//               func: () {
-//                 _webViewController
-//                     .currentUrl()
-//                     .then((value) => Share.share(value));
-//               },
-//               mIcon: Icons.send,
-//               iconColor: Colors.white,
-//             ),
-//             MediaQuery(
-//               data: MediaQueryData(),
-//               child: InkWell(
-//                 child: Icon(Icons.history_rounded, color: Colors.white),
-//                 onTap: () {
-//                   showModalBottomSheet(
-//                     context: contextParam,
-//                     builder: (BuildContext ctx) {
-//                       return ListView.builder(
-//                         itemCount: _myList.length,
-//                         itemBuilder: (context, index) {
-//                           return InkWell(
-//                             child: Row(
-//                               mainAxisAlignment:
-//                                   MainAxisAlignment.spaceBetween,
-//                               children: [
-//                                 Text(_myList[index]),
-//                                 Icon(Icons.arrow_forward_ios_rounded),
-//                               ],
-//                             ),
-//                             onTap: () {},
-//                           );
-//                         },
-//                       );
-//                     },
-//                   );
-//                 },
-//               ),
-//             ),
-//             iconInkWell(
-//               mIcon: Icons.refresh,
-//               iconColor: Colors.white,
-//               func: () {
-//                 _webViewController.currentUrl().then((value) {
-//                   myUrl = value;
-//                   _webViewController.reload();
-//                 });
-//               },
-//             ),
-//           ],
-//         ),
-//       ),
-//     ),
-//     // bottomNavigationBar: BottomNavigationBar(
-//     //   showSelectedLabels: false,
-//     //   showUnselectedLabels: false,
-//     //   items: [
-//     //     BottomNavigationBarItem(icon: Icon(Icons.arrow_forward_ios)),
-//     //   ],
-//     // ),
-//   );
-// }
