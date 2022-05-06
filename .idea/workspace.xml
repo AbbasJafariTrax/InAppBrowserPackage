@@ -2,16 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3652c71b-aef5-416c-82e4-fdcec260c954" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/browse_in.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/android/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/settings.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/android/settings.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/android/app/src/profile/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/example/android/app/src/profile/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/in_app_browser.podspec" beforeDir="false" afterPath="$PROJECT_DIR$/ios/in_app_browser.podspec" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/MyManagement/HistoryStorage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/MyManagement/HistoryStorage.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -19,7 +12,7 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="Pixel_3a_XL_API_30" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="uo999xr8q4twm7rs" />
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
@@ -41,16 +34,16 @@
     <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="dart.analysis.tool.window.force.activate" value="false" />
     <property name="io.flutter.reload.alreadyRun" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../browse_in" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/assets/images" />
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="D:\Projects\Flutter\in_app_browser\assets\images" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\Projects\Flutter\in_app_browser\assets\images" />
       <recent name="D:\Projects\Flutter\in_app_browser\assets" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Projects\Flutter\in_app_browser\assets\images" />
     </key>
   </component>
   <component name="SvnConfiguration">
@@ -71,6 +64,22 @@
       <screen x="1600" y="0" width="1440" height="860" />
     </state>
     <state x="2100" y="185" key="FileChooserDialogImpl/0.0.1600.860/1600.0.1440.860@1600.0.1440.860" timestamp="1651801708925" />
+    <state width="1069" height="217" key="GridCell.Tab.0.bottom" timestamp="1651817461096">
+      <screen x="0" y="0" width="1600" height="860" />
+    </state>
+    <state width="1069" height="217" key="GridCell.Tab.0.bottom/0.0.1600.860@0.0.1600.860" timestamp="1651817461096" />
+    <state width="1069" height="217" key="GridCell.Tab.0.center" timestamp="1651817461096">
+      <screen x="0" y="0" width="1600" height="860" />
+    </state>
+    <state width="1069" height="217" key="GridCell.Tab.0.center/0.0.1600.860@0.0.1600.860" timestamp="1651817461096" />
+    <state width="1069" height="217" key="GridCell.Tab.0.left" timestamp="1651817461096">
+      <screen x="0" y="0" width="1600" height="860" />
+    </state>
+    <state width="1069" height="217" key="GridCell.Tab.0.left/0.0.1600.860@0.0.1600.860" timestamp="1651817461096" />
+    <state width="1069" height="217" key="GridCell.Tab.0.right" timestamp="1651817461096">
+      <screen x="0" y="0" width="1600" height="860" />
+    </state>
+    <state width="1069" height="217" key="GridCell.Tab.0.right/0.0.1600.860@0.0.1600.860" timestamp="1651817461096" />
     <state width="498" height="446" key="SwitcherDM" timestamp="1651800499390">
       <screen x="1600" y="0" width="1440" height="860" />
     </state>

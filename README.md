@@ -2,7 +2,35 @@
 
 Simple in app browser for you application.
 
+![BrowseIn](/assets/images/browse_in.jpg)
+
 ## Getting Started
+
+### Usage
+
+```
+    MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: InAppBrowser(
+        "https://www.google.com/",
+        mDirection: TextDirection.ltr,
+        addBookmarkIcon: Icons.bookmark_outline,
+        removeBookmarkIcon: Icons.bookmark,
+        appBarColor: Color(0xFF262626),
+        backIcon: Icons.arrow_back_ios,
+        nextIcon: Icons.arrow_forward_ios,
+        bottomNavColor: Color(0xFF262626),
+        closeIcon: Icons.close,
+        historyCloseIcon: Icons.close,
+        historyCloseIconColor: Colors.white,
+        historyIcon: Icons.history,
+        refreshIcon: Icons.refresh,
+        historyTitle: "ذخیره شده ها",
+        shareIcon: Icons.share,
+        historyDialogSize: 600,
+      ),
+    );
+```
 
 Git repository of this package
 [git_repository](https://github.com/AbbasJafariTrax/InAppBrowserPackage/),
