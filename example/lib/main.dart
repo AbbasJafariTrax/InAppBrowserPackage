@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:in_app_browser/in_app_browser.dart';
+import 'package:browse_in/in_app_browser.dart';
 import 'dart:async';
 
 import 'package:in_app_browser_example/home.dart';

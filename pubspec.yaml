@@ -1,5 +1,5 @@
-name: in_app_browser
-description: A new flutter plugin project.
+name: browse_in
+description: Create in app browser for your URL.
 version: 0.0.1
 author:
 homepage:
