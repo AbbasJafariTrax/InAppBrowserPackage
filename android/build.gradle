@@ -1,4 +1,4 @@
-group 'com.bigdreams.in_app_browser'
+group 'com.bigdreams.browse_in'
 version '1.0'
 
 buildscript {

@@ -3,7 +3,7 @@
 # Run `pod lib lint in_app_browser.podspec` to validate before publishing.
 #
 Pod::Spec.new do |s|
-  s.name             = 'in_app_browser'
+  s.name             = 'browse_in'
   s.version          = '0.0.1'
   s.summary          = 'A new flutter plugin project.'
   s.description      = <<-DESC
