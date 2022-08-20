@@ -2,8 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
-import 'package:share/share.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:share_plus/share_plus.dart';
 
 List<String> months = [
   "January",
@@ -85,11 +84,6 @@ class _InAppBrowserState extends State<InAppBrowser>
     with TickerProviderStateMixin {
   final flutterWebViewPlugin = FlutterWebviewPlugin();
 
-  SharedPreferences prefs;
-
-  List<Map<dynamic, dynamic>> _myList = [];
-  bool isLoading = true;
-
   @override
   void initState() {
     // TODO: implement initState
@@ -99,118 +93,109 @@ class _InAppBrowserState extends State<InAppBrowser>
       widget.mUrl = element;
       setState(() {});
     });
-
-    Future.delayed(Duration.zero, () {
-      isLoading = false;
-      initailSP();
-    });
   }
-
-  // title, background, appbar config, bottomsheet config
 
   @override
   Widget build(BuildContext context) {
-    return isLoading
-        ? SizedBox.shrink()
-        : WillPopScope(
-            onWillPop: () async {
-              mDispose();
-              return true;
-            },
-            child: Directionality(
-              textDirection: widget.mDirection,
-              child: WebviewScaffold(
-                appBar: AppBar(
-                  actions: widget.actionWidget,
-                  centerTitle: widget.centerTitle,
-                  primary: widget.primary,
-                  excludeHeaderSemantics: widget.excludeHeaderSemantics,
-                  elevation: widget.elevationVal,
-                  backgroundColor: widget.appBarBGColor,
-                  shadowColor: widget.shadowColor,
-                  iconTheme: widget.iconTheme,
-                  actionsIconTheme: widget.actionsIconTheme,
-                  titleSpacing: widget.titleSpacing,
-                  toolbarHeight: widget.toolbarHeight,
-                  leadingWidth: widget.leadingWidth,
-                  toolbarTextStyle: widget.toolbarTextStyle,
-                  titleTextStyle: widget.titleTextStyle,
-                  title: widget.titleWidget == null
-                      ? widget.showAppBar
-                          ? Text(
-                              widget.mUrl,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.normal,
-                              ),
-                            )
-                          : SizedBox.shrink()
-                      : widget.titleWidget,
-                  leading: InkWell(
-                    child: widget.closeIcon == null
-                        ? IconWidget(Icons.close)
-                        : widget.closeIcon,
-                    onTap: mDispose,
+    return WillPopScope(
+      onWillPop: () async {
+        mDispose();
+        return true;
+      },
+      child: Directionality(
+        textDirection: widget.mDirection,
+        child: WebviewScaffold(
+          appBar: AppBar(
+            actions: widget.actionWidget,
+            centerTitle: widget.centerTitle,
+            primary: widget.primary,
+            excludeHeaderSemantics: widget.excludeHeaderSemantics,
+            elevation: widget.elevationVal,
+            backgroundColor: widget.appBarBGColor,
+            shadowColor: widget.shadowColor,
+            iconTheme: widget.iconTheme,
+            actionsIconTheme: widget.actionsIconTheme,
+            titleSpacing: widget.titleSpacing,
+            toolbarHeight: widget.toolbarHeight,
+            leadingWidth: widget.leadingWidth,
+            toolbarTextStyle: widget.toolbarTextStyle,
+            titleTextStyle: widget.titleTextStyle,
+            title: widget.titleWidget == null
+                ? widget.showAppBar
+                    ? Text(
+                        widget.mUrl,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.normal,
+                        ),
+                      )
+                    : SizedBox.shrink()
+                : widget.titleWidget,
+            leading: InkWell(
+              child: widget.closeIcon == null
+                  ? IconWidget(Icons.close)
+                  : widget.closeIcon,
+              onTap: mDispose,
+            ),
+          ),
+          url: widget.mUrl,
+          bottomNavigationBar: SizedBox(
+            height: widget.btmSheetSize,
+            child: Card(
+              color: widget.bottomNavColor,
+              margin: EdgeInsets.zero,
+              shape: widget.btmSheetShape == null
+                  ? RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(0),
+                    )
+                  : widget.btmSheetShape,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  iconInkWell(
+                    func: () {
+                      flutterWebViewPlugin.canGoBack().then((value) {
+                        if (value) flutterWebViewPlugin.goBack();
+                      });
+                    },
+                    iconWidget: widget.backIcon == null
+                        ? IconWidget(Icons.arrow_back_ios)
+                        : widget.backIcon,
                   ),
-                ),
-                url: widget.mUrl,
-                bottomNavigationBar: SizedBox(
-                  height: widget.btmSheetSize,
-                  child: Card(
-                    color: widget.bottomNavColor,
-                    margin: EdgeInsets.zero,
-                    shape: widget.btmSheetShape == null
-                        ? RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(0),
-                          )
-                        : widget.btmSheetShape,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        iconInkWell(
-                          func: () {
-                            flutterWebViewPlugin.canGoBack().then((value) {
-                              if (value) flutterWebViewPlugin.goBack();
-                            });
-                          },
-                          iconWidget: widget.backIcon == null
-                              ? IconWidget(Icons.arrow_back_ios)
-                              : widget.backIcon,
-                        ),
-                        iconInkWell(
-                          func: () {
-                            flutterWebViewPlugin.canGoForward().then((value) {
-                              if (value) flutterWebViewPlugin.goForward();
-                            });
-                          },
-                          iconWidget: widget.nextIcon == null
-                              ? IconWidget(Icons.arrow_forward_ios)
-                              : widget.nextIcon,
-                        ),
-                        iconInkWell(
-                          func: () {
-                            Share.share(widget.mUrl);
-                          },
-                          iconWidget: widget.shareIcon == null
-                              ? IconWidget(Icons.share)
-                              : widget.shareIcon,
-                        ),
-                        iconInkWell(
-                          iconWidget: widget.refreshIcon == null
-                              ? IconWidget(Icons.refresh)
-                              : widget.refreshIcon,
-                          func: () {
-                            flutterWebViewPlugin.reload();
-                          },
-                        ),
-                      ],
-                    ),
+                  iconInkWell(
+                    func: () {
+                      flutterWebViewPlugin.canGoForward().then((value) {
+                        if (value) flutterWebViewPlugin.goForward();
+                      });
+                    },
+                    iconWidget: widget.nextIcon == null
+                        ? IconWidget(Icons.arrow_forward_ios)
+                        : widget.nextIcon,
                   ),
-                ),
+                  iconInkWell(
+                    func: () {
+                      Share.share(widget.mUrl);
+                    },
+                    iconWidget: widget.shareIcon == null
+                        ? IconWidget(Icons.share)
+                        : widget.shareIcon,
+                  ),
+                  iconInkWell(
+                    iconWidget: widget.refreshIcon == null
+                        ? IconWidget(Icons.refresh)
+                        : widget.refreshIcon,
+                    func: () {
+                      flutterWebViewPlugin.reload();
+                    },
+                  ),
+                ],
               ),
             ),
-          );
+          ),
+        ),
+      ),
+    );
   }
 
   static Widget iconInkWell({Function func, Widget iconWidget}) {
@@ -218,27 +203,6 @@ class _InAppBrowserState extends State<InAppBrowser>
       onTap: func,
       child: iconWidget == null ? SizedBox.shrink() : iconWidget,
     );
-  }
-
-  void initailSP() async {
-    prefs = await SharedPreferences.getInstance();
-    List<String> mKeys = prefs.getKeys().toList();
-
-    if (mKeys.isNotEmpty)
-      mKeys.forEach((key) {
-        if (key.contains("URL: ")) {
-          String value = prefs.getString(key);
-          _myList.add({
-            "title": value.substring(0, value.indexOf(",")),
-            "url": key.substring(5, key.length),
-            "time": value.substring(value.indexOf(",") + 2, value.length),
-          });
-        }
-      });
-
-    _myList.forEach((element) {});
-
-    setState(() {});
   }
 
   void mDispose() {
