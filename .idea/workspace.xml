@@ -1,10 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="NONE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="3652c71b-aef5-416c-82e4-fdcec260c954" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/assets/images/browse_in.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/android/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/example/android/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/lib/home.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/MyManagement/HistoryStorage.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/in_app_browser.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/in_app_browser.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -12,7 +21,6 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="uo999xr8q4twm7rs" />
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
@@ -27,12 +35,14 @@
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
-    <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
     <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="RunOnceActivity.cidr.known.project.marker" value="true" />
+    <property name="cidr.known.project.marker" value="true" />
     <property name="dart.analysis.tool.window.force.activate" value="false" />
+    <property name="dart.analysis.tool.window.visible" value="false" />
     <property name="io.flutter.reload.alreadyRun" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/assets/images" />
     <property name="show.migrate.to.gradle.popup" value="false" />
@@ -46,6 +56,7 @@
       <recent name="D:\Projects\Flutter\in_app_browser\assets\images" />
     </key>
   </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -59,38 +70,16 @@
     </task>
     <servers />
   </component>
-  <component name="WindowStateProjectService">
-    <state x="2100" y="185" key="FileChooserDialogImpl" timestamp="1651801708925">
-      <screen x="1600" y="0" width="1440" height="860" />
-    </state>
-    <state x="2100" y="185" key="FileChooserDialogImpl/0.0.1600.860/1600.0.1440.860@1600.0.1440.860" timestamp="1651801708925" />
-    <state width="1069" height="217" key="GridCell.Tab.0.bottom" timestamp="1651817461096">
-      <screen x="0" y="0" width="1600" height="860" />
-    </state>
-    <state width="1069" height="217" key="GridCell.Tab.0.bottom/0.0.1600.860@0.0.1600.860" timestamp="1651817461096" />
-    <state width="1069" height="217" key="GridCell.Tab.0.center" timestamp="1651817461096">
-      <screen x="0" y="0" width="1600" height="860" />
-    </state>
-    <state width="1069" height="217" key="GridCell.Tab.0.center/0.0.1600.860@0.0.1600.860" timestamp="1651817461096" />
-    <state width="1069" height="217" key="GridCell.Tab.0.left" timestamp="1651817461096">
-      <screen x="0" y="0" width="1600" height="860" />
-    </state>
-    <state width="1069" height="217" key="GridCell.Tab.0.left/0.0.1600.860@0.0.1600.860" timestamp="1651817461096" />
-    <state width="1069" height="217" key="GridCell.Tab.0.right" timestamp="1651817461096">
-      <screen x="0" y="0" width="1600" height="860" />
-    </state>
-    <state width="1069" height="217" key="GridCell.Tab.0.right/0.0.1600.860@0.0.1600.860" timestamp="1651817461096" />
-    <state width="498" height="446" key="SwitcherDM" timestamp="1651800499390">
-      <screen x="1600" y="0" width="1440" height="860" />
-    </state>
-    <state width="498" height="446" key="SwitcherDM/0.0.1600.860/1600.0.1440.860@1600.0.1440.860" timestamp="1651800499390" />
-    <state x="716" y="254" key="com.intellij.ide.util.TipDialog" timestamp="1651799379221">
-      <screen x="0" y="0" width="1600" height="860" />
-    </state>
-    <state x="716" y="254" key="com.intellij.ide.util.TipDialog/0.0.1600.860@0.0.1600.860" timestamp="1651799379221" />
-    <state x="1841" y="159" width="646" height="542" key="find.popup" timestamp="1651800155333">
-      <screen x="1600" y="0" width="1440" height="860" />
-    </state>
-    <state x="1841" y="159" width="646" height="542" key="find.popup/0.0.1600.860/1600.0.1440.860@1600.0.1440.860" timestamp="1651800155333" />
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
 </project>
