@@ -90,6 +90,10 @@ this.titleTextStyle
 Git repository of this package
 [git_repository](https://github.com/AbbasJafariTrax/InAppBrowserPackage/)
 
+### Meta
+
+Abbas Jafari - [Abbas Jafari](https://www.linkedin.com/in/abbas-jafari-1355531b5/)
+
 ### Contributing
 
 1. Fork it (https://github.com/atiqsamtia/change_app_package_name/fork)
