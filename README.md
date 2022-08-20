@@ -2,7 +2,7 @@
 
 Simple in app browser for you application.
 
-![BrowseIn](https://github.com/AbbasJafariTrax/InAppBrowserPackage/blob/master/assets/images/browse_in.jpg = 256x118)
+![BrowseIn](https://github.com/AbbasJafariTrax/InAppBrowserPackage/blob/master/assets/images/browse_in.jpg {height=256px width=118px})
 
 ## Getting Started
 
