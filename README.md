@@ -3,6 +3,7 @@
 Simple in app browser for you application.
 
 <img src="https://github.com/AbbasJafariTrax/InAppBrowserPackage/blob/master/assets/images/browse_in.jpg" height=512px width=236px>
+
 ## Getting Started
 
 ### Usage
