@@ -9,27 +9,45 @@ Simple in app browser for you application.
 ### Usage
 
 ```
-    MaterialApp(
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  String _platformVersion = 'Unknown';
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: InAppBrowser(
+      home: InAppWebView(
         "https://www.google.com/",
         mDirection: TextDirection.ltr,
-        addBookmarkIcon: Icons.bookmark_outline,
-        removeBookmarkIcon: Icons.bookmark,
-        appBarColor: Color(0xFF262626),
-        backIcon: Icons.arrow_back_ios,
-        nextIcon: Icons.arrow_forward_ios,
+        appBarBGColor: Color(0xFF262626),
         bottomNavColor: Color(0xFF262626),
-        closeIcon: Icons.close,
-        historyCloseIcon: Icons.close,
-        historyCloseIconColor: Colors.white,
-        historyIcon: Icons.history,
-        refreshIcon: Icons.refresh,
-        historyTitle: "ذخیره شده ها",
-        shareIcon: Icons.share,
-        historyDialogSize: 600,
+        showAppTitle: true,
+        backIcon: Icon(Icons.arrow_back_ios, color: Colors.white),
+        nextIcon: Icon(Icons.arrow_forward_ios, color: Colors.white),
+        closeIcon: Icon(Icons.close, color: Colors.white),
+        shareIcon: Icon(Icons.share, color: Colors.white),
+        refreshIcon: Icon(Icons.refresh, color: Colors.white),
+        actionWidget: [],
+        actionsIconTheme: IconThemeData(),
+        centerTitle: true,
+        titleTextStyle: TextStyle(),
+        toolbarTextStyle: TextStyle(),
+        toolbarHeight: 56,
       ),
     );
+  }
+}
+
 ```
 
 ### InAppWebView parameters
@@ -96,7 +114,7 @@ Git repository of this package
 
 ### Contributing
 
-1. Fork it (https://github.com/atiqsamtia/change_app_package_name/fork)
+1. Fork it (https://github.com/AbbasJafariTrax/InAppBrowserPackage/fork)
 2. Create your feature branch (git checkout -b feature/fooBar)
 3. Commit your changes (git commit -am 'Add some fooBar')
 4. Push to the branch (git push origin feature/fooBar)

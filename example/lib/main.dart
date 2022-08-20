@@ -40,11 +40,6 @@ class _MyAppState extends State<MyApp> {
         titleTextStyle: TextStyle(),
         toolbarTextStyle: TextStyle(),
         toolbarHeight: 56,
-        // Break
-        // titleWidget: Text("Your title widget"),
-        // leadingWidth: 25,
-        // titleSpacing: 50,
-
       ),
     );
   }
