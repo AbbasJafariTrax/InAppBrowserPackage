@@ -1,6 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:in_app_browser/in_app_browser.dart';
+import 'package:browse_in/in_app_browser.dart';
 
 void main() {
   const MethodChannel channel = MethodChannel('in_app_browser');
@@ -18,6 +18,6 @@ void main() {
   });
 
   test('getPlatformVersion', () async {
-    expect(await InAppBrowser.platformVersion, '42');
+    expect(await InAppWebView.platformVersion, '42');
   });
 }
