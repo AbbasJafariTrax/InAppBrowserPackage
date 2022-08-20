@@ -1,7 +1,7 @@
-name: browse_in
+name: in_app_webview
 description: Create in app browser for your URL.
-version: 0.0.4
-author:
+version: 1.0.4
+author: Abbas Jafari
 homepage:
 
 environment:
@@ -34,10 +34,18 @@ flutter:
         pluginClass: InAppBrowserPlugin
       ios:
         pluginClass: InAppBrowserPlugin
+      macos:
+        pluginClass: InAppBrowserPlugin
+      web:
+        pluginClass: InAppBrowserPlugin
+      windows:
+        pluginClass: InAppBrowserPlugin
+      linux:
+        pluginClass: InAppBrowserPlugin
 
   # To add assets to your plugin package, add an assets section, like this:
-  assets:
-    - assets/images/remove.png
+  # assets:
+  #   - assets/images/remove.png
   #   - images/a_dot_ham.jpeg
   #
   # For details regarding assets in packages, see

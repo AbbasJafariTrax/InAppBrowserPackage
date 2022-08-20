@@ -23,17 +23,28 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: InAppBrowser(
+      home: InAppWebView(
         "https://www.google.com/",
         mDirection: TextDirection.ltr,
         appBarBGColor: Color(0xFF262626),
-        // backIcon: Icons.arrow_back_ios,
-        // nextIcon: Icons.arrow_forward_ios,
         bottomNavColor: Color(0xFF262626),
-        // closeIcon: Icons.close,
-        // refreshIcon: Icons.refresh,
-        // shareIcon: Icons.share,
-        showAppBar: true,
+        showAppTitle: true,
+        backIcon: Icon(Icons.arrow_back_ios, color: Colors.white),
+        nextIcon: Icon(Icons.arrow_forward_ios, color: Colors.white),
+        closeIcon: Icon(Icons.close, color: Colors.white),
+        shareIcon: Icon(Icons.share, color: Colors.white),
+        refreshIcon: Icon(Icons.refresh, color: Colors.white),
+        actionWidget: [],
+        actionsIconTheme: IconThemeData(),
+        centerTitle: true,
+        titleTextStyle: TextStyle(),
+        toolbarTextStyle: TextStyle(),
+        toolbarHeight: 56,
+        // Break
+        // titleWidget: Text("Your title widget"),
+        // leadingWidth: 25,
+        // titleSpacing: 50,
+
       ),
     );
   }

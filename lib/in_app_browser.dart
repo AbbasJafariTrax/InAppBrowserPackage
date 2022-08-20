@@ -8,19 +8,22 @@ import 'package:share_plus/share_plus.dart';
 /// change the name of package
 
 // ignore: must_be_immutable
-class InAppBrowser extends StatefulWidget {
+class InAppWebView extends StatefulWidget {
   /// [mUrl] which is loaded and displayed by web view and it will be show on the appbar
   /// and share by share button
   String mUrl;
 
   /// To change the direction of web view
   final TextDirection mDirection;
-  final Widget backIcon,
+
+  /// You can set your title widget by [titleWidget]
+  final Widget closeIcon,
+      titleWidget,
+  /// Bottom Sheet Icons
+      backIcon,
       nextIcon,
       shareIcon,
-      refreshIcon,
-      closeIcon,
-      titleWidget;
+      refreshIcon;
 
   // Bottom Sheet parameters
   final Color bottomNavColor;
@@ -29,7 +32,7 @@ class InAppBrowser extends StatefulWidget {
 
   // AppBar parameters
   final Color appBarBGColor, appBarFGColor;
-  final bool showAppBar, centerTitle, primary, excludeHeaderSemantics;
+  final bool showAppTitle, centerTitle, primary, excludeHeaderSemantics;
   final List<Widget> actionWidget;
   final Color shadowColor;
   final IconThemeData iconTheme, actionsIconTheme;
@@ -37,7 +40,7 @@ class InAppBrowser extends StatefulWidget {
   final double titleSpacing, toolbarHeight, leadingWidth, elevationVal;
   final TextStyle toolbarTextStyle, titleTextStyle;
 
-  InAppBrowser(
+  InAppWebView(
     this.mUrl, {
     Key key,
     this.mDirection = TextDirection.ltr,
@@ -49,7 +52,7 @@ class InAppBrowser extends StatefulWidget {
     this.appBarBGColor = Colors.white,
     this.bottomNavColor = Colors.white,
     this.titleWidget,
-    this.showAppBar = false,
+    this.showAppTitle = false,
     this.actionWidget,
     this.centerTitle = false,
     this.elevationVal = 0,
@@ -69,10 +72,10 @@ class InAppBrowser extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _InAppBrowserState createState() => _InAppBrowserState();
+  _InAppWebViewState createState() => _InAppWebViewState();
 }
 
-class _InAppBrowserState extends State<InAppBrowser>
+class _InAppWebViewState extends State<InAppWebView>
     with TickerProviderStateMixin {
   final flutterWebViewPlugin = FlutterWebviewPlugin();
 
@@ -91,6 +94,7 @@ class _InAppBrowserState extends State<InAppBrowser>
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
+      key: widget.key,
       onWillPop: () async {
         mDispose();
         return true;
@@ -115,7 +119,7 @@ class _InAppBrowserState extends State<InAppBrowser>
             toolbarTextStyle: widget.toolbarTextStyle,
             titleTextStyle: widget.titleTextStyle,
             title: widget.titleWidget == null
-                ? widget.showAppBar
+                ? widget.showAppTitle
                     ? Text(
                         widget.mUrl,
                         overflow: TextOverflow.ellipsis,
