@@ -1,23 +1,8 @@
-import 'dart:async';
-
+import 'package:browse_in/widgets/IconInkWell.dart';
+import 'package:browse_in/widgets/IconWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:share_plus/share_plus.dart';
-
-List<String> months = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
 
 // ignore: must_be_immutable
 class InAppBrowser extends StatefulWidget {
@@ -153,7 +138,7 @@ class _InAppBrowserState extends State<InAppBrowser>
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  iconInkWell(
+                  IconInkWell(
                     func: () {
                       flutterWebViewPlugin.canGoBack().then((value) {
                         if (value) flutterWebViewPlugin.goBack();
@@ -163,7 +148,7 @@ class _InAppBrowserState extends State<InAppBrowser>
                         ? IconWidget(Icons.arrow_back_ios)
                         : widget.backIcon,
                   ),
-                  iconInkWell(
+                  IconInkWell(
                     func: () {
                       flutterWebViewPlugin.canGoForward().then((value) {
                         if (value) flutterWebViewPlugin.goForward();
@@ -173,7 +158,7 @@ class _InAppBrowserState extends State<InAppBrowser>
                         ? IconWidget(Icons.arrow_forward_ios)
                         : widget.nextIcon,
                   ),
-                  iconInkWell(
+                  IconInkWell(
                     func: () {
                       Share.share(widget.mUrl);
                     },
@@ -181,7 +166,7 @@ class _InAppBrowserState extends State<InAppBrowser>
                         ? IconWidget(Icons.share)
                         : widget.shareIcon,
                   ),
-                  iconInkWell(
+                  IconInkWell(
                     iconWidget: widget.refreshIcon == null
                         ? IconWidget(Icons.refresh)
                         : widget.refreshIcon,
@@ -198,13 +183,6 @@ class _InAppBrowserState extends State<InAppBrowser>
     );
   }
 
-  static Widget iconInkWell({Function func, Widget iconWidget}) {
-    return InkWell(
-      onTap: func,
-      child: iconWidget == null ? SizedBox.shrink() : iconWidget,
-    );
-  }
-
   void mDispose() {
     flutterWebViewPlugin.dispose();
     flutterWebViewPlugin.hide();
@@ -212,17 +190,5 @@ class _InAppBrowserState extends State<InAppBrowser>
     Future.delayed(Duration(microseconds: 10), () {
       Navigator.pop(context);
     });
-  }
-}
-
-class IconWidget extends StatelessWidget {
-  final IconData iconWidget;
-  final Color iconColor;
-
-  const IconWidget(this.iconWidget, {this.iconColor = Colors.white});
-
-  @override
-  Widget build(BuildContext context) {
-    return Icon(iconWidget, color: iconColor);
   }
 }
