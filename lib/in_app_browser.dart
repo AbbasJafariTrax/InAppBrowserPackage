@@ -4,9 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:share_plus/share_plus.dart';
 
+/// Write comment and a great docs
+/// change the name of package
+
 // ignore: must_be_immutable
 class InAppBrowser extends StatefulWidget {
+  /// [mUrl] which is loaded and displayed by web view and it will be show on the appbar
+  /// and share by share button
   String mUrl;
+
+  /// To change the direction of web view
   final TextDirection mDirection;
   final Widget backIcon,
       nextIcon,
@@ -74,6 +81,7 @@ class _InAppBrowserState extends State<InAppBrowser>
     // TODO: implement initState
     super.initState();
 
+    // onChange listener is used to change the value of mUrl variable
     flutterWebViewPlugin.onUrlChanged.forEach((element) {
       widget.mUrl = element;
       setState(() {});
@@ -90,6 +98,7 @@ class _InAppBrowserState extends State<InAppBrowser>
       child: Directionality(
         textDirection: widget.mDirection,
         child: WebviewScaffold(
+          /// App bar screen
           appBar: AppBar(
             actions: widget.actionWidget,
             centerTitle: widget.centerTitle,
@@ -117,14 +126,18 @@ class _InAppBrowserState extends State<InAppBrowser>
                       )
                     : SizedBox.shrink()
                 : widget.titleWidget,
-            leading: InkWell(
-              child: widget.closeIcon == null
+            leading: IconInkWell(
+              func: mDispose,
+              iconWidget: widget.closeIcon == null
                   ? IconWidget(Icons.close)
                   : widget.closeIcon,
-              onTap: mDispose,
             ),
           ),
+
+          /// Web view screen
           url: widget.mUrl,
+
+          /// Bottom sheet screen
           bottomNavigationBar: SizedBox(
             height: widget.btmSheetSize,
             child: Card(
@@ -138,6 +151,7 @@ class _InAppBrowserState extends State<InAppBrowser>
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
+                  /// Go to previous link
                   IconInkWell(
                     func: () {
                       flutterWebViewPlugin.canGoBack().then((value) {
@@ -148,6 +162,8 @@ class _InAppBrowserState extends State<InAppBrowser>
                         ? IconWidget(Icons.arrow_back_ios)
                         : widget.backIcon,
                   ),
+
+                  /// Go to next link
                   IconInkWell(
                     func: () {
                       flutterWebViewPlugin.canGoForward().then((value) {
@@ -158,6 +174,8 @@ class _InAppBrowserState extends State<InAppBrowser>
                         ? IconWidget(Icons.arrow_forward_ios)
                         : widget.nextIcon,
                   ),
+
+                  /// share the current link
                   IconInkWell(
                     func: () {
                       Share.share(widget.mUrl);
@@ -166,6 +184,8 @@ class _InAppBrowserState extends State<InAppBrowser>
                         ? IconWidget(Icons.share)
                         : widget.shareIcon,
                   ),
+
+                  /// Refresh the current link
                   IconInkWell(
                     iconWidget: widget.refreshIcon == null
                         ? IconWidget(Icons.refresh)
@@ -183,6 +203,7 @@ class _InAppBrowserState extends State<InAppBrowser>
     );
   }
 
+  /// [mDispose] will dispose and hide web view and then close the page
   void mDispose() {
     flutterWebViewPlugin.dispose();
     flutterWebViewPlugin.hide();
