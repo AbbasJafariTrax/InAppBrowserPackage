@@ -87,12 +87,12 @@ this.toolbarTextStyle
 this.titleTextStyle
 ```
 
-Git repository of this package
-[git_repository](https://github.com/AbbasJafariTrax/InAppBrowserPackage/)
-
 ### Meta
 
-Abbas Jafari - [Abbas Jafari](https://www.linkedin.com/in/abbas-jafari-1355531b5/)
+Abbas Jafari - [@Abbas Jafari](https://www.linkedin.com/in/abbas-jafari-1355531b5/)
+
+Git repository of this package
+[git_repository](https://github.com/AbbasJafariTrax/InAppBrowserPackage/)
 
 ### Contributing
 
